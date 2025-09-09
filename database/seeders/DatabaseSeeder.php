@@ -17,20 +17,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create 10 users
         $users = User::factory(10)->create();
 
-        // Each user creates 3 places
         $users->each(function ($user) {
             Place::factory(3)->create([
                 'user_id' => $user->id,
             ]);
         });
 
-        // Get all places
         $places = Place::all();
 
-        // Each user adds 2 reviews to random places
         $users->each(function ($user) use ($places) {
             $places->random(2)->each(function ($place) use ($user) {
                 Review::factory()->create([
@@ -40,7 +36,6 @@ class DatabaseSeeder extends Seeder
             });
         });
 
-        // Each user uploads 2 photos to random places
         $users->each(function ($user) use ($places) {
             $places->random(2)->each(function ($place) use ($user) {
                 Photo::factory()->create([
@@ -50,7 +45,6 @@ class DatabaseSeeder extends Seeder
             });
         });
 
-        // Each user adds 3 random places to their wishlist
         $users->each(function ($user) use ($places) {
             $places->random(3)->each(function ($place) use ($user) {
                 Wishlist::factory()->create([
@@ -59,8 +53,7 @@ class DatabaseSeeder extends Seeder
                 ]);
             });
         });
-        
-        // Each review gets 1 comment from a random user
+
         $reviews = Review::all();
         $reviews->each(function ($review) use ($users) {
             Comment::factory()->create([
