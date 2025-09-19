@@ -1,295 +1,86 @@
-# ☕ Kopiew App – Laravel Project  
----
+## Kopiew App
 
-## 📥 Setup Project  
+## Prerequisites
 
-### 1. Prasyarat  
-Pastikan sudah install:  
-- *PHP* (minimal versi sesuai composer.json)  
-- *Composer*  
-- *Node.js & npm*  
-- *MySQL / MariaDB*  
-- *Git*  
+Before you begin, ensure that you have the following installed:
 
-### 2. Clone Repository  
-bash
+-   PHP (^8.2)
+-   Node.js (>= 12)
+-   Composer
+
+# Allow your account
+
+1. Copy ./database/seeders/data/accounts.json.example to ./database/seeders/data/accounts.json
+2. Edit with your data
+3. Seeding the database
+
+## Clone the Project
+
+1. Open your terminal and navigate to the directory where you want to clone the project.
+2. Execute the following command to clone the project from GitHub:
+
 ```shell
 git clone https://github.com/azmiagr/kopiew-app.git
+```
+
+## Project Configuration
+
+1. Change your current directory to the project's root folder:
+
+```shell
 cd kopiew-app
 ```
 
-### 3. Install Dependencies
-bash
-# Install PHP dependencies
+2. Install the required PHP dependencies using Composer:
+
 ```shell
 composer install
 ```
 
-# Install Node.js dependencies
-```shell
-npm install
-```
+3. Create a copy of the `.env.example` file and rename it to `.env`:
 
-### 4. Environment Setup
-bash
-# Copy environment file
 ```shell
 cp .env.example .env
 ```
 
-# Generate application key
+4. Generate an application key:
+
 ```shell
 php artisan key:generate
 ```
 
-### 5. Database Configuration
-Edit file .env sesuai dengan konfigurasi database Anda:
-env
+## Frontend Setup
+
+1. Install the necessary JavaScript dependencies using NPM:
+
 ```shell
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=kopiew_db
-DB_USERNAME=root
-DB_PASSWORD=
+npm install
 ```
 
-### 6. Database Migration & Seeding
-bash
-# Create database (pastikan database sudah dibuat)
-```shell
-php artisan migrate
-```
+2. Build the frontend assets:
 
-# Optional: Jalankan seeder jika ada
-```shell
-php artisan db:seed
-```
-
-### 7. Build Assets
-bash
-# Development
 ```shell
 npm run dev
 ```
 
-# Production
+3. Hot reloading frontend assets
+
 ```shell
-npm run build
+npm run hot
 ```
 
-### 8. Start Development Server
-bash
+## Start the Application
+
+Once you have completed the setup steps, you can start the Laravel application:
+
 ```shell
 php artisan serve
 ```
 
-Project akan berjalan di http://localhost:8000
-
 ---
 
-## 🌿 Git Workflow & Branching Strategy
+This will start a development server, and you can access your application by visiting `http://127.0.0.1:8000` in your web browser.
 
-### 1. Create Personal Branch
-Setelah clone project, buat branch personal Anda:
-bash
-# Format: nama-fitur atau nama-developer
-```shell
-git checkout -b nama-anda/fitur-yang-dikerjakan
-```
+If you have any questions or concerns regarding this project or the instruction provided in this repository, please do not hesitate to contact one or many of the Maintainer of this project 🙂.
 
-# Contoh:
-```shell
-git checkout -b cut/auth-system
-git checkout -b cut/dashboard-ui
-```
-
-### 2. Working on Your Branch
-bash
-# Pastikan selalu di branch Anda
-git branch  # cek branch aktif
-
-# Lakukan perubahan code, lalu commit
-```shell
-git add .
-git commit -m "feat: implementasi login system"
-```
-
-# Push ke remote branch
-git push origin nama-anda/fitur-yang-dikerjakan
-
-
-### 3. Keep Branch Updated
-Secara berkala update branch Anda dengan main:
-bash
-# Pindah ke main dan pull latest changes
-git checkout main
-git pull origin main
-
-# Kembali ke branch Anda dan merge main
-git checkout nama-anda/fitur-yang-dikerjakan
-git merge main
-
-# Atau gunakan rebase (opsional)
-git rebase main
-
-
-### 4. Create Pull Request (PR)
-1. Push final changes ke branch Anda
-2. Buka GitHub repository: https://github.com/azmiagr/kopiew-app
-3. Klik *"Compare & pull request"*
-4. Isi detail PR dengan format:
-
-markdown
-## 📋 Description
-Brief description tentang fitur/perubahan yang dibuat
-
-## 🔧 Changes Made
-- [ ] Fitur A
-- [ ] Bug fix B
-- [ ] Update dokumentasi
-
-## 🧪 Testing
-- [ ] Manual testing
-- [ ] Unit tests (jika ada)
-
-## 📸 Screenshots
-(Jika ada perubahan UI)
-
-
-### 5. PR Review Process
-- *Hanya Azmi* yang bisa melakukan merge ke main branch
-- PR harus di-review dan approve sebelum merge
-- Pastikan tidak ada conflict dengan main branch
-- Code harus mengikuti coding standard Laravel
-
----
-
-## 📋 Branch Naming Convention
-
-Gunakan format berikut untuk nama branch:
-- nama-dev/feature-name - untuk fitur baru
-- nama-dev/bugfix-name - untuk bug fix
-- nama-dev/hotfix-name - untuk hotfix urgent
-
-*Contoh:*
-bash
-git checkout -b azmi/user-management
-git checkout -b rina/coffee-catalog
-git checkout -b budi/bugfix-login-error
-
-
----
-
-## 📝 Commit Message Convention
-
-Gunakan format conventional commits:
-bash
-# Format
-<type>: <description>
-
-# Contoh
-feat: add user authentication system
-fix: resolve login redirect issue
-docs: update API documentation
-style: format code with prettier
-refactor: optimize database queries
-test: add unit tests for user model
-
-
-*Types:*
-- feat - fitur baru
-- fix - bug fix
-- docs - dokumentasi
-- style - formatting, tidak mengubah logic
-- refactor - refactor code
-- test - menambah/update tests
-- chore - maintenance tasks
-
----
-
-## ⚠ Important Rules
-
-### 🚫 Yang TIDAK BOLEH dilakukan:
-- ❌ Push langsung ke main branch
-- ❌ Merge PR sendiri (kecuali Azmi)
-- ❌ Force push ke branch yang sudah di-share
-- ❌ Commit file .env atau credential
-
-### ✅ Yang HARUS dilakukan:
-- ✅ Selalu buat branch baru untuk setiap fitur/task
-- ✅ Write clear commit messages
-- ✅ Test code sebelum create PR
-- ✅ Update branch dengan main secara berkala
-- ✅ Resolve conflicts sebelum create PR
-
----
-
-## 🛠 Development Commands
-
-bash
-# Clear cache
-php artisan cache:clear
-php artisan config:clear
-php artisan view:clear
-
-# Generate model, controller, migration
-php artisan make:model Coffee -mcr
-php artisan make:controller CoffeeController --resource
-
-# Database commands
-php artisan migrate:fresh --seed
-php artisan migrate:rollback
-
-# Asset compilation
-npm run watch    # auto-compile saat development
-npm run hot      # hot reload
-
-
----
-
-## 👥 Team Collaboration
-
-### Daily Workflow:
-1. *Morning*: Pull latest main, merge ke branch Anda
-2. *Development*: Work on your branch, commit regularly
-3. *Before going home*: Push your progress
-4. *Weekly*: Create PR untuk review
-
-### Communication:
-- Coordinate dengan team sebelum merge main
-- Report progress dan blockers
-- Ask for help jika stuck dengan Git issues
-
----
-
-## 🆘 Troubleshooting
-
-### Common Git Issues:
-
-*Merge Conflicts:*
-bash
-# Jika ada conflict saat merge main
-git status  # lihat file yang conflict
-# Edit file yang conflict, hapus conflict markers
-git add .
-git commit -m "resolve merge conflicts"
-
-
-*Accidentally committed to wrong branch:*
-bash
-# Pindah ke branch yang benar
-git checkout correct-branch-name
-git cherry-pick commit-hash
-
-
-*Need to undo last commit:*
-bash
-# Soft reset (keep changes)
-git reset --soft HEAD~1
-
-# Hard reset (discard changes) - HATI-HATI!
-git reset --hard HEAD~1
-
-
-*Happy Coding! ☕*
+Happy coding!
