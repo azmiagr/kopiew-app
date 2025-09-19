@@ -33,45 +33,56 @@ npm install
 ### 4. Environment Setup
 bash
 # Copy environment file
+```shell
 cp .env.example .env
+```
 
 # Generate application key
+```shell
 php artisan key:generate
-
+```
 
 ### 5. Database Configuration
 Edit file .env sesuai dengan konfigurasi database Anda:
 env
+```shell
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=kopiew_db
 DB_USERNAME=root
 DB_PASSWORD=
-
+```
 
 ### 6. Database Migration & Seeding
 bash
 # Create database (pastikan database sudah dibuat)
+```shell
 php artisan migrate
+```
 
 # Optional: Jalankan seeder jika ada
+```shell
 php artisan db:seed
-
+```
 
 ### 7. Build Assets
 bash
 # Development
+```shell
 npm run dev
+```
 
 # Production
+```shell
 npm run build
-
+```
 
 ### 8. Start Development Server
 bash
+```shell
 php artisan serve
-
+```
 
 Project akan berjalan di http://localhost:8000
 
@@ -83,12 +94,15 @@ Project akan berjalan di http://localhost:8000
 Setelah clone project, buat branch personal Anda:
 bash
 # Format: nama-fitur atau nama-developer
+```shell
 git checkout -b nama-anda/fitur-yang-dikerjakan
+```
 
 # Contoh:
+```shell
 git checkout -b cut/auth-system
 git checkout -b cut/dashboard-ui
-
+```
 
 ### 2. Working on Your Branch
 bash
@@ -96,8 +110,10 @@ bash
 git branch  # cek branch aktif
 
 # Lakukan perubahan code, lalu commit
+```shell
 git add .
 git commit -m "feat: implementasi login system"
+```
 
 # Push ke remote branch
 git push origin nama-anda/fitur-yang-dikerjakan
