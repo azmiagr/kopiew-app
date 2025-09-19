@@ -1,4 +1,3 @@
-Tentu, ini panduan yang telah diperbarui dengan tag **`shell`** di dalam blok kode.
 
 -----
 
