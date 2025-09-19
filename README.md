@@ -13,18 +13,22 @@ Pastikan sudah install:
 
 ### 2. Clone Repository  
 bash
+```shell
 git clone https://github.com/azmiagr/kopiew-app.git
 cd kopiew-app
-
+```
 
 ### 3. Install Dependencies
 bash
 # Install PHP dependencies
+```shell
 composer install
+```
 
 # Install Node.js dependencies
+```shell
 npm install
-
+```
 
 ### 4. Environment Setup
 bash
