@@ -118,7 +118,7 @@ Setelah proyek siap, ikuti alur kerja berikut sebelum memulai pekerjaan:
 
 ```shell
 git checkout -b fitur/nama-fitur-kamu
-git checkout -b fitur/auth
+git checkout -b fitur/auth //contoh
 ```
 
 2.  **Standard Operating Procedure (SOP) for Committing:**
