@@ -169,6 +169,6 @@ php artisan serve
 
 Aplikasi akan berjalan di `http://127.0.0.1:8000`.
 
-Jika ada pertanyaan atau masalah, jangan ragu untuk menghubungi salah satu *maintainer* proyek ini 🙂.
+Jika ada pertanyaan atau masalah, chat ae di grup
 
 Selamat ngoding\!
