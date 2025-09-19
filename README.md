@@ -1,9 +1,6 @@
-
------
-
 ## Kopiew App
 
-## Prerequisites
+### Prerequisites
 
 Before you begin, ensure that you have the following installed:
 
@@ -11,16 +8,17 @@ Before you begin, ensure that you have the following installed:
   - Node.js (\>= 12)
   - Composer
 
-# Allow your account
+### Allow Your Account
 
 1.  Copy `./database/seeders/data/accounts.json.example` to `./database/seeders/data/accounts.json`
 2.  Edit with your data
 3.  Seeding the database
 
-## Clone the Project
+-----
 
-1.  Open your terminal and navigate to the directory where you want to clone the project.
-2.  Execute the following command to clone the project from GitHub:
+### Clone and Project Setup
+
+1.  **Clone the Project:** Open your terminal and navigate to the directory where you want to clone the project. Then, execute this command:
 
 <!-- end list -->
 
@@ -28,9 +26,7 @@ Before you begin, ensure that you have the following installed:
 git clone https://github.com/azmiagr/kopiew-app.git
 ```
 
-## Project Configuration
-
-1.  Change your current directory to the project's root folder:
+2.  **Navigate to Project Directory:**
 
 <!-- end list -->
 
@@ -38,84 +34,141 @@ git clone https://github.com/azmiagr/kopiew-app.git
 cd kopiew-app
 ```
 
-2.  Install the required PHP dependencies using Composer:
+3.  **Install Dependencies:**
+
+      * Install PHP dependencies:
+
+    <!-- end list -->
+
+    ```shell
+    composer install
+    ```
+
+      * Install JavaScript dependencies:
+
+    <!-- end list -->
+
+    ```shell
+    npm install
+    ```
+
+4.  **Configure Environment:**
+
+      * Create a copy of `.env.example` and rename it to `.env`:
+
+    <!-- end list -->
+
+    ```shell
+    cp .env.example .env
+    ```
+
+      * Generate a unique application key:
+
+    <!-- end list -->
+
+    ```shell
+    php artisan key:generate
+    ```
+
+5.  **Run Migrations and Seeders:**
+
+      * Run database migrations to create tables:
+
+    <!-- end list -->
+
+    ```shell
+    php artisan migrate
+    ```
+
+      * Seed the database with initial data:
+
+    <!-- end list -->
+
+    ```shell
+    php artisan migrate:seed
+    ```
+
+6.  **Build Frontend Assets:**
+
+      * Build assets for development:
+
+    <!-- end list -->
+
+    ```shell
+    npm run dev
+    ```
+
+      * Untuk *hot reloading*, gunakan:
+
+    <!-- end list -->
+
+    ```shell
+    npm run hot
+    ```
+
+-----
+
+### Workflow and Branching
+
+Setelah proyek siap, ikuti alur kerja berikut sebelum memulai pekerjaan:
+
+1.  **Create Your Branch:** Buat *branch* baru untuk fitur atau tugas yang kamu kerjakan. Nama *branch* harus deskriptif.
 
 <!-- end list -->
 
 ```shell
-composer install
+git checkout -b fitur/nama-fitur-kamu
 ```
 
-3.  Create a copy of the `.env.example` file and rename it to `.env`:
+2.  **Stkamurd Operating Procedure (SOP) for Committing:**
+
+      * Tambahkan perubahan yang ingin kamu simpan:
+
+    <!-- end list -->
+
+    ```shell
+    git add .
+    ```
+
+      * Lakukan *commit* dengan pesan yang jelas dan deskriptif. Formatnya harus singkat dan to the point.
+
+    <!-- end list -->
+
+    ```shell
+    git commit -m "feat: Menambahkan fitur login user"
+    ```
+
+      * Gunakan format `type: deskripsi`. Contoh `type`:
+          * **`feat`**: Menambahkan fitur baru.
+          * **`fix`**: Memperbaiki *bug*.
+          * **`docs`**: Perubahan pada dokumentasi.
+          * **`style`**: Perubahan format kode (tanpa mengubah logika).
+          * **`refactor`**: Perubahan kode yang tidak menambah fitur atau memperbaiki *bug*.
+
+3.  **Push to Remote:** Setelah selesai, *push* *branch* kamu ke *remote repository*.
 
 <!-- end list -->
 
 ```shell
-cp .env.example .env
+git push origin fitur/nama-fitur-kamu
 ```
 
-4.  Generate an application key:
+4.  **Create Pull Request (PR):** Buat PR dari *branch* kamu ke *branch* **`main`**.
 
-<!-- end list -->
+5.  **Important:** **Hanya Azmi** yang berhak me-*merge* PR. Pastikan kamu ga me-*merge* PR kamu sendiri.
 
-```shell
-php artisan key:generate
-```
+-----
 
-5.  Run database migrations:
+### Start the Application
 
-<!-- end list -->
-
-```shell
-php artisan migrate
-```
-
-6.  Seed the database with initial data:
-
-<!-- end list -->
-
-```shell
-php artisan migrate:seed
-```
-
-## Frontend Setup
-
-1.  Install the necessary JavaScript dependencies using NPM:
-
-<!-- end list -->
-
-```shell
-npm install
-```
-
-2.  Build the frontend assets:
-
-<!-- end list -->
-
-```shell
-npm run dev
-```
-
-3.  Hot reloading frontend assets
-
-<!-- end list -->
-
-```shell
-npm run hot
-```
-
-## Start the Application
-
-Once you have completed the setup steps, you can start the Laravel application:
+Setelah semua *setup* selesai, kamu bisa menjalankan aplikasi:
 
 ```shell
 php artisan serve
 ```
 
------
+Aplikasi akan berjalan di `http://127.0.0.1:8000`.
 
-This will start a development server, and you can access your application by visiting `http://127.0.0.1:8000` in your web browser.
+Jika ada pertanyaan atau masalah, jangan ragu untuk menghubungi salah satu *maintainer* proyek ini 🙂.
 
-If you have any questions or concerns regarding this project or the instruction provided in this repository, please do not hesitate to contact one or many of the Maintainer of this project 🙂.
-
-Happy coding\!
+Selamat ngoding\!
