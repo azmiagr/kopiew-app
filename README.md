@@ -120,7 +120,7 @@ Setelah proyek siap, ikuti alur kerja berikut sebelum memulai pekerjaan:
 git checkout -b fitur/nama-fitur-kamu
 ```
 
-2.  **Stkamurd Operating Procedure (SOP) for Committing:**
+2.  **Standard Operating Procedure (SOP) for Committing:**
 
       * Tambahkan perubahan yang ingin kamu simpan:
 
