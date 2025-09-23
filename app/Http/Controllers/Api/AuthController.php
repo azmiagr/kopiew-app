@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use ResponseHelper;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
@@ -27,7 +29,7 @@ class AuthController extends Controller
 
         $token = Auth::guard('api')->login($user);
 
-        return $this->respondWithToken($token);
+        return ResponseHelper::success(['token' => $token], "Successfully registered and logged in", 201);
     }
 
     public function login(Request $request)
@@ -38,16 +40,16 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        return ResponseHelper::success(['token' => $token], "Logged in successfully");
     }
 
     public function logout()
     {
         try {
             Auth::guard('api')->logout();
-            return response()->json(['message' => 'Successfully logged out']);
+            return ResponseHelper::success(null, "Logged out successfully");
         } catch (JWTException $e) {
-            return response()->json(['error' => 'Failed to logout, token invalid or missing'], 401);
+            return ResponseHelper::error("Failed to log out", $e->getCode(), $e->getMessage());
         }
     }
 
