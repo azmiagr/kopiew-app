@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('wishlists', function (Blueprint $table) {
             $table->id()->autoIncrement();
+            $table->string('name');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('place_id')->constrained()->onDelete('cascade');
             $table->timestamps();
