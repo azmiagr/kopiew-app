@@ -12,9 +12,6 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         $users = User::factory(10)->create();
@@ -53,7 +50,7 @@ class DatabaseSeeder extends Seeder
                 ]);
             });
         });
-
+        
         $reviews = Review::all();
         $reviews->each(function ($review) use ($users) {
             Comment::factory()->create([
