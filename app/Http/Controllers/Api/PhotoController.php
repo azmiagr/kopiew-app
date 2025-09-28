@@ -11,7 +11,7 @@ use ResponseHelper;
 
 class PhotoController extends Controller
 {
-    public function index($placeID) 
+    public function index($placeID)
     {
         try {
             $data = Photo::with(["user", "place"])->where('place_id', $placeID)->get();
@@ -25,14 +25,14 @@ class PhotoController extends Controller
         }
     }
 
-    public function store(Request $request, $placeID) 
+    public function store(Request $request, $placeID)
     {
         try {
             $validate = $request->validate([
                 'url' => 'required|file|mimes:jpg,jpeg,png|max:2048',
                 'caption' => 'required|string|max:255',
             ]);
-            
+
             if ($request->hasFile('url')) {
                 $file = $request->file('url');
                 $filename = time() . '_' . $file->getClientOriginalName();
@@ -53,11 +53,11 @@ class PhotoController extends Controller
         }
     }
 
-    public function show($placeID, $id) 
+    public function show($placeID, $id)
     {
         try {
             $data = Photo::with(["user", "place"])->where('place_id', $placeID)->find($id);
-            
+
             if (!$data) {
                 return ResponseHelper::error("photo not found", 404);
             }
@@ -68,7 +68,7 @@ class PhotoController extends Controller
         }
     }
 
-    public function update(Request $request, $placeID, $id) 
+    public function update(Request $request, $placeID, $id)
     {
         try {
             $request->validate([
@@ -106,7 +106,7 @@ class PhotoController extends Controller
         }
     }
 
-    public function destroy($placeID, $id) 
+    public function destroy($placeID, $id)
     {
         try {
             $data = Photo::where("place_id", $placeID)->find($id);
