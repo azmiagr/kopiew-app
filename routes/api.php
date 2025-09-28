@@ -15,6 +15,10 @@ Route::get('/reviews', [ReviewController::class, 'index']);
 Route::get('/place/{place}/reviews', [ReviewController::class, 'show']);
 
 
+Route::get('/reviews', [ReviewController::class, 'index']);
+Route::get('/place/{place}/reviews', [ReviewController::class, 'show']);
+
+
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
