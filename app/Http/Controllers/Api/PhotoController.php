@@ -16,7 +16,7 @@ class PhotoController extends Controller
         try {
             $data = Photo::with(["user", "place"])->where('place_id', $placeID)->get();
             if ($data->isEmpty()) {
-                return ResponseHelper::error("no photo found", 404);
+                return ResponseHelper::error("no photos found", 404);
             }
 
             return ResponseHelper::success($data, "list photos", 200);
