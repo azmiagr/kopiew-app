@@ -12,9 +12,10 @@ class WishlistController extends Controller
     {
         $validated = $request->validate([
             'name'     => 'required|string|max:255',
-            'user_id'  => 'required|exists:users,id',
             'place_id' => 'required|exists:places,id',
         ]);
+
+        $validated['user_id'] = auth('api')->id();
 
         $wishlist = Wishlist::create($validated);
 
@@ -48,9 +49,10 @@ class WishlistController extends Controller
     {
         $validated = $request->validate([
             'name'     => 'sometimes|required|string|max:255',
-            'user_id'  => 'sometimes|required|exists:users,id',
             'place_id' => 'sometimes|required|exists:places,id',
         ]);
+
+        $validated['user_id'] = auth('api')->id();
 
         $wishlist->update($validated);
 
