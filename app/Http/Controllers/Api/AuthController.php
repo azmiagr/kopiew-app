@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use ResponseHelper;
+use App\Helpers\ResponseHelper;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
