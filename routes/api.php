@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\PlaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -8,9 +10,20 @@ use App\Http\Controllers\Api\WishlistController;
 
 Route::post('/daftar', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/reviews', [ReviewController::class, 'index']);
+Route::get('/place/{place}/reviews', [ReviewController::class, 'show']);
+
+
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+  
+  
+    Route::get('/profile', [ProfileController::class, 'index']);
+    Route::put('/profile', [ProfileController::class, 'update']);
+    Route::post('/place/{place}/reviews', [ReviewController::class, 'store']);
+    Route::put('/place/{place}/reviews/{review}', [ReviewController::class, 'update']);
+    Route::delete('/place/{place}/reviews/{review}', [ReviewController::class, 'destroy']);
 
     Route::get('/wishlists', [WishlistController::class, 'index']);
     Route::get('/wishlists/{wishlist}', [WishlistController::class, 'show']);
