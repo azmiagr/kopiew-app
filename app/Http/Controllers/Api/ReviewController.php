@@ -32,7 +32,7 @@ class ReviewController extends Controller
             'rating' => 'required|integer|min:1|max:5'
         ]);
 
-        $data = array_merge($validated, ['user_id' => auth()->id()]);
+        $data = array_merge($validated, ['user_id' => auth('api')->id()]);
         $reviews = $place->reviews()->create($data);
 
         return ResponseHelper::success($reviews, "Success to create review", 201);
@@ -44,7 +44,7 @@ class ReviewController extends Controller
             return ResponseHelper::error("This review does not belong to the given place", 400);
         }
 
-        if ($review->user_id !== auth()->id()) {
+        if ($review->user_id !== auth('api')->id()) {
             return ResponseHelper::error("You are not authorized to edit this review", 403);
         }
 
@@ -64,7 +64,7 @@ class ReviewController extends Controller
             return ResponseHelper::error("This review does not belong to the given place", 400);
         }
 
-        if ($review->user_id !== auth()->id()) {
+        if ($review->user_id !== auth('api')->id()) {
             return ResponseHelper::error("You are not authorized to delete this review", 403);
         }
 
