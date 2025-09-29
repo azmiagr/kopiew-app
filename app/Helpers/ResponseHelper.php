@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Helpers;
-
 class ResponseHelper
 {
     public static function success($data = null, $message = 'Success', $code = 200)
