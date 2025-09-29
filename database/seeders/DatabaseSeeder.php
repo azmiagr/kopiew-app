@@ -58,5 +58,6 @@ class DatabaseSeeder extends Seeder
                 'review_id' => $review->id,
             ]);
         });
+        $this->call(ThreadSeeder::class);
     }
 }

@@ -8,9 +8,14 @@ use App\Http\Controllers\Api\PlaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\WishlistController;
+use App\Http\Controllers\ThreadController;
 
 Route::post('/daftar', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/reviews', [ReviewController::class, 'index']);
+Route::get('/place/{place}/reviews', [ReviewController::class, 'show']);
+
+
 Route::get('/reviews', [ReviewController::class, 'index']);
 Route::get('/place/{place}/reviews', [ReviewController::class, 'show']);
 
@@ -40,10 +45,21 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/place/{id_place}/photos', [PhotoController::class, 'store']);
     Route::patch('/place/{id_place}/photos/{id}', [PhotoController::class, 'update']);
     Route::delete('/place/{id_place}/photos/{id}', [PhotoController::class, 'destroy']);
+  
+    Route::post('/threads', [ThreadController::class, 'store']);
+    Route::put('/threads/{thread}', [ThreadController::class, 'update']);
+    Route::patch('/threads/{thread}', [ThreadController::class, 'update']);
+    Route::delete('/threads/{thread}', [ThreadController::class, 'destroy']);
+
+    Route::post('/threads/{thread}/like', [ThreadController::class, 'like']);
+    Route::post('/threads/{thread}/comments', [ThreadController::class, 'addComment']);
 });
 
 Route::get('/place', [PlaceController::class, 'index']);
 Route::get('/place/{place}', [PlaceController::class, 'show']);
+
+Route::get('/threads/{thread}', [ThreadController::class, 'show']);
+Route::get('/threads', [ThreadController::class, 'index']);
 
 Route::get('/place/{id_place}/photos', [PhotoController::class, 'index']);
 Route::get('/place/{id_place}/photos/{id}', [PhotoController::class, 'show']);
