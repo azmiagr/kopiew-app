@@ -5,67 +5,71 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use ResponseHelper;
 
 class WishlistController extends Controller
 {
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name'     => 'required|string|max:255',
-            'user_id'  => 'required|exists:users,id',
-            'place_id' => 'required|exists:places,id',
-        ]);
+        try {
+            $validated = $request->validate([
+                'name'     => 'required|string|max:255',
+                'user_id'  => 'required|exists:users,id',
+                'place_id' => 'required|exists:places,id',
+            ]);
 
-        $wishlist = Wishlist::create($validated);
+            $wishlist = Wishlist::create($validated);
 
-        return response()->json([
-            'message' => 'Wishlist berhasil dibuat',
-            'data'    => $wishlist
-        ], 201);
+            return ResponseHelper::success($wishlist, 'Wishlist berhasil dibuat', 201);
+        } catch (\Throwable $e) {
+            return ResponseHelper::error('Gagal membuat wishlist', 500, $e->getMessage());
+        }
     }
 
     public function index()
     {
-        $wishlists = Wishlist::with(['user', 'place'])->latest()->get();
-
-        return response()->json([
-            'message' => 'Daftar semua wishlist',
-            'data'    => $wishlists
-        ]);
+        try {
+            $wishlists = Wishlist::with(['user', 'place'])->latest()->get();
+            return ResponseHelper::success($wishlists, 'Daftar semua wishlist');
+        } catch (\Throwable $e) {
+            return ResponseHelper::error('Gagal mengambil data wishlist', 500, $e->getMessage());
+        }
     }
 
     public function show(Wishlist $wishlist)
     {
-        $wishlist->load(['user', 'place']);
-
-        return response()->json([
-            'message' => 'Detail wishlist',
-            'data'    => $wishlist
-        ]);
+        try {
+            $wishlist->load(['user', 'place']);
+            return ResponseHelper::success($wishlist, 'Detail wishlist');
+        } catch (\Throwable $e) {
+            return ResponseHelper::error('Gagal mengambil detail wishlist', 500, $e->getMessage());
+        }
     }
 
     public function update(Request $request, Wishlist $wishlist)
     {
-        $validated = $request->validate([
-            'name'     => 'sometimes|required|string|max:255',
-            'user_id'  => 'sometimes|required|exists:users,id',
-            'place_id' => 'sometimes|required|exists:places,id',
-        ]);
+        try {
+            $validated = $request->validate([
+                'name'     => 'sometimes|required|string|max:255',
+                'user_id'  => 'sometimes|required|exists:users,id',
+                'place_id' => 'sometimes|required|exists:places,id',
+            ]);
 
-        $wishlist->update($validated);
+            $wishlist->update($validated);
 
-        return response()->json([
-            'message' => 'Wishlist berhasil diperbarui',
-            'data'    => $wishlist
-        ]);
+            return ResponseHelper::success($wishlist, 'Wishlist berhasil diperbarui');
+        } catch (\Throwable $e) {
+            return ResponseHelper::error('Gagal memperbarui wishlist', 500, $e->getMessage());
+        }
     }
 
     public function destroy(Wishlist $wishlist)
     {
-        $wishlist->delete();
-
-        return response()->json([
-            'message' => 'Wishlist berhasil dihapus'
-        ]);
+        try {
+            $wishlist->delete();
+            return ResponseHelper::success(null, 'Wishlist berhasil dihapus');
+        } catch (\Throwable $e) {
+            return ResponseHelper::error('Gagal menghapus wishlist', 500, $e->getMessage());
+        }
     }
 }
