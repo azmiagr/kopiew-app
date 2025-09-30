@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\PhotoController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\Api\ThreadController;
 
 // ---------------- AUTH ----------------
 Route::post('/register', [AuthController::class, 'register']);
