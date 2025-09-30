@@ -69,6 +69,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Wishlist::class);
     }
 
+    public function threads()
+    {
+        return $this->hasMany(Thread::class);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

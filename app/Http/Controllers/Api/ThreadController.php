@@ -12,7 +12,7 @@ class ThreadController extends Controller
 {
     public function index()
     {
-        $threads = Thread::with(['comments.user'])->latest()->get();
+        $threads = Thread::with(['user', 'comments.user'])->latest()->paginate(8);
         return response()->json($threads);
     }
 
@@ -43,7 +43,7 @@ class ThreadController extends Controller
 
     public function show(Thread $thread)
     {
-        $thread->load(['comments.user']);
+        $thread->load(['user', 'comments.user']);
         return response()->json($thread);
     }
 
@@ -53,6 +53,10 @@ class ThreadController extends Controller
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        if ($thread->user_id !== auth()->id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
 
         $path = $request->hasFile('image')
             ? $request->file('image')->store('threads', 'public')
@@ -71,6 +75,10 @@ class ThreadController extends Controller
 
     public function destroy(Thread $thread)
     {
+        if ($thread->user_id !== auth()->id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         $thread->delete();
         return response()->json([
             'message' => 'Thread berhasil dihapus!'

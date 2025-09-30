@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Place;
 use App\Models\Review;
 use Illuminate\Http\Request;
-use ResponseHelper;
+use App\Helpers\ResponseHelper;
 
 class ReviewController extends Controller
 {
