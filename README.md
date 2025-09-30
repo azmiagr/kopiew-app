@@ -85,7 +85,7 @@ cd kopiew-app
     <!-- end list -->
 
     ```shell
-    php artisan migrate:seed
+    php artisan migrate --seed
     ```
 
 6.  **Build Frontend Assets:**
