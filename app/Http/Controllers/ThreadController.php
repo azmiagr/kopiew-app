@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Thread;
-use Illuminate\Http\Request;
 use App\Models\ThreadLike;
 use App\Models\ThreadComment;
+use Illuminate\Http\Request;
 
 class ThreadController extends Controller
 {
@@ -19,18 +19,19 @@ class ThreadController extends Controller
     {
         $request->validate([
             'content' => 'required|string',
-            'image'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $path = null;
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('threads', 'public');
-        }
+        $path = $request->hasFile('image')
+            ? $request->file('image')->store('threads', 'public')
+            : null;
 
         $thread = Thread::create([
             'user_id' => auth()->id(),
             'content' => $request->content,
-            'image'   => $path,
+            'image' => $path,
+            'likes_count' => 0,
+            'comments_count' => 0,
         ]);
 
         return response()->json([
@@ -49,17 +50,16 @@ class ThreadController extends Controller
     {
         $request->validate([
             'content' => 'required|string',
-            'image'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $path = $thread->image;
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('threads', 'public');
-        }
+        $path = $request->hasFile('image')
+            ? $request->file('image')->store('threads', 'public')
+            : $thread->image;
 
         $thread->update([
             'content' => $request->content,
-            'image'   => $path,
+            'image' => $path,
         ]);
 
         return response()->json([
@@ -87,21 +87,20 @@ class ThreadController extends Controller
         if ($existing) {
             $existing->delete();
             $thread->decrement('likes_count');
-            return response()->json([
-                'message' => 'Unliked',
-                'likes_count' => $thread->likes_count,
-            ]);
+            $message = 'Unliked';
         } else {
             ThreadLike::create([
                 'thread_id' => $thread->id,
                 'user_id' => $userId,
             ]);
             $thread->increment('likes_count');
-            return response()->json([
-                'message' => 'Liked',
-                'likes_count' => $thread->likes_count,
-            ]);
+            $message = 'Liked';
         }
+
+        return response()->json([
+            'message' => $message,
+            'likes_count' => $thread->likes_count,
+        ]);
     }
 
     public function addComment(Request $request, Thread $thread)
