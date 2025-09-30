@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Thread;
 use App\Models\ThreadLike;
 use App\Models\ThreadComment;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ThreadController extends Controller
 {
