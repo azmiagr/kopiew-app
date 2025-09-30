@@ -7,13 +7,14 @@ use App\Models\ThreadLike;
 use App\Models\ThreadComment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use ResponseHelper;
 
 class ThreadController extends Controller
 {
     public function index()
     {
         $threads = Thread::with(['user', 'comments.user'])->latest()->paginate(8);
-        return response()->json($threads);
+        return ResponseHelper::success($threads, "Thread berhasil diambil");
     }
 
     public function store(Request $request)
@@ -35,16 +36,13 @@ class ThreadController extends Controller
             'comments_count' => 0,
         ]);
 
-        return response()->json([
-            'message' => 'Thread berhasil dibuat!',
-            'data' => $thread
-        ], 201);
+        return ResponseHelper::success($thread, 'Thread berhasil dibuat.', 201);
     }
 
     public function show(Thread $thread)
     {
         $thread->load(['user', 'comments.user']);
-        return response()->json($thread);
+        return ResponseHelper::success($thread, 'Detail thread berhasil diambil.');
     }
 
     public function update(Request $request, Thread $thread)
@@ -55,7 +53,7 @@ class ThreadController extends Controller
         ]);
 
         if ($thread->user_id !== auth()->id()) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return ResponseHelper::error('Unauthorized', 403);
         }
 
         $path = $request->hasFile('image')
@@ -67,22 +65,17 @@ class ThreadController extends Controller
             'image' => $path,
         ]);
 
-        return response()->json([
-            'message' => 'Thread berhasil diupdate!',
-            'data' => $thread
-        ]);
+        return ResponseHelper::success($thread, 'Thread berhasil diupdate.');
     }
 
     public function destroy(Thread $thread)
     {
         if ($thread->user_id !== auth()->id()) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return ResponseHelper::error('Unauthorized', 403);
         }
 
         $thread->delete();
-        return response()->json([
-            'message' => 'Thread berhasil dihapus!'
-        ]);
+        return ResponseHelper::success(null, 'Thread berhasil dihapus.');
     }
 
     public function like(Thread $thread)
@@ -106,10 +99,9 @@ class ThreadController extends Controller
             $message = 'Liked';
         }
 
-        return response()->json([
-            'message' => $message,
+        return ResponseHelper::success([
             'likes_count' => $thread->likes_count,
-        ]);
+        ], $message);
     }
 
     public function addComment(Request $request, Thread $thread)
@@ -126,9 +118,6 @@ class ThreadController extends Controller
 
         $thread->increment('comments_count');
 
-        return response()->json([
-            'message' => 'Comment added!',
-            'data' => $comment
-        ], 201);
+        return ResponseHelper::success($comment, 'Comment ditambahkan.', 201);
     }
 }

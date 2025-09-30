@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Helpers\ResponseHelper;
+use ResponseHelper;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
