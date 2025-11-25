@@ -11,7 +11,7 @@ use App\Models\Review;
 class Place extends Model
 {
 
-    protected $fillable = ['user_id', 'name', 'address', 'description'];
+    protected $fillable = ['user_id', 'name', 'address', 'description', 'operating_hours'];
 
     use HasFactory;
     public function photos()

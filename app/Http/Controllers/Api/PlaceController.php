@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 class PlaceController extends Controller
 {
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             "name" => 'sometimes|required|string|min:5|max:100',
             "address" => 'sometimes|required|string|max:255',
@@ -26,18 +27,19 @@ class PlaceController extends Controller
         ]);
     }
 
-    public function index() {
-        $places = Place::with('photos','reviews')->latest()->get();
+    public function index()
+    {
+        $places = Place::with('photos', 'reviews')->latest()->get();
 
         return response()->json([
             "message" => "Daftar semua places",
             "data" => $places
         ]);
-
     }
 
-    public function show(Place $place) {
-        $place->load('photos', 'reviews');
+    public function show(Place $place)
+    {
+        $place->load('user', 'photos', 'reviews.user', 'comments.user');
 
         return response()->json([
             "message" => "Detail place",
@@ -45,9 +47,10 @@ class PlaceController extends Controller
         ]);
     }
 
-    public function update(Request $request, Place $place) {
+    public function update(Request $request, Place $place)
+    {
 
-        if($place->user_id !== auth()->id()) {
+        if ($place->user_id !== auth()->id()) {
             return response()->json([
                 "message" => "Anda tidak memiliki akses untuk mengubah"
             ], 403);
@@ -65,21 +68,20 @@ class PlaceController extends Controller
             "message" => "Place berhasil diubah",
             "data" => $place
         ]);
-
     }
 
     public function destroy(Place $place)
-{
-    if ($place->user_id !== auth()->id()) {
+    {
+        if ($place->user_id !== auth()->id()) {
+            return response()->json([
+                'message' => 'Anda tidak memiliki akses untuk menghapus.'
+            ], 403);
+        }
+
+        $place->delete();
+
         return response()->json([
-            'message' => 'Anda tidak memiliki akses untuk menghapus.'
-        ], 403);
+            'message' => 'Place berhasil dihapus'
+        ], 200);
     }
-
-    $place->delete();
-
-    return response()->json([
-        'message' => 'Place berhasil dihapus'
-    ], 200);
-}
 }

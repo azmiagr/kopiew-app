@@ -16,10 +16,16 @@ class PlaceFactory extends Factory
      */
     public function definition(): array
     {
+        $openHour = fake()->numberBetween(6, 10);
+        $closeHour = fake()->numberBetween(20, 23);
+        $openMinute = fake()->randomElement(['00', '30']);
+        $closeMinute = fake()->randomElement(['00', '30']);
+
         return [
             'name' => fake()->company(),
             'address' => fake()->streetAddress(),
             'description' => fake()->text(),
+            'operating_hours' => sprintf('%02d.%s-%02d.%s', $openHour, $openMinute, $closeHour, $closeMinute),
         ];
     }
 }
