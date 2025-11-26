@@ -39,7 +39,7 @@ class PlaceController extends Controller
 
     public function show(Place $place)
     {
-        $place->load('user', 'photos', 'reviews.user', 'comments.user');
+        $place->load('user', 'photos', 'reviews.user');
 
         return response()->json([
             "message" => "Detail place",
