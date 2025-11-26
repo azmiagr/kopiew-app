@@ -14,14 +14,18 @@ class WishlistController extends Controller
         try {
             $validated = $request->validate([
                 'name'     => 'required|string|max:255',
-                'user_id'  => 'required|exists:users,id',
                 'place_id' => 'required|exists:places,id',
             ]);
+
+            $validated['user_id'] = auth()->id();
 
             $wishlist = Wishlist::create($validated);
 
             return ResponseHelper::success($wishlist, 'Wishlist berhasil dibuat', 201);
         } catch (\Throwable $e) {
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                return ResponseHelper::error('Data tidak valid', 422, $e->errors());
+            }
             return ResponseHelper::error('Gagal membuat wishlist', 500, $e->getMessage());
         }
     }
@@ -29,8 +33,12 @@ class WishlistController extends Controller
     public function index()
     {
         try {
-            $wishlists = Wishlist::with(['user', 'place'])->latest()->get();
-            return ResponseHelper::success($wishlists, 'Daftar semua wishlist');
+            $wishlists = Wishlist::where('user_id', auth()->id())
+                ->with(['user', 'place'])
+                ->latest()
+                ->get();
+                
+            return ResponseHelper::success($wishlists, 'Daftar wishlist user yang login');
         } catch (\Throwable $e) {
             return ResponseHelper::error('Gagal mengambil data wishlist', 500, $e->getMessage());
         }
@@ -39,6 +47,10 @@ class WishlistController extends Controller
     public function show(Wishlist $wishlist)
     {
         try {
+            if ($wishlist->user_id !== auth()->id()) {
+                return ResponseHelper::error('Akses ditolak. Wishlist ini bukan milik Anda.', 403);
+            }
+
             $wishlist->load(['user', 'place']);
             return ResponseHelper::success($wishlist, 'Detail wishlist');
         } catch (\Throwable $e) {
@@ -49,16 +61,26 @@ class WishlistController extends Controller
     public function update(Request $request, Wishlist $wishlist)
     {
         try {
+            if ($wishlist->user_id !== auth()->id()) {
+                return ResponseHelper::error('Akses ditolak. Anda tidak dapat memperbarui Wishlist user lain.', 403);
+            }
+
             $validated = $request->validate([
                 'name'     => 'sometimes|required|string|max:255',
-                'user_id'  => 'sometimes|required|exists:users,id',
                 'place_id' => 'sometimes|required|exists:places,id',
             ]);
 
+            if (isset($validated['user_id'])) {
+                unset($validated['user_id']);
+            }
+            
             $wishlist->update($validated);
 
             return ResponseHelper::success($wishlist, 'Wishlist berhasil diperbarui');
         } catch (\Throwable $e) {
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                return ResponseHelper::error('Data tidak valid', 422, $e->errors());
+            }
             return ResponseHelper::error('Gagal memperbarui wishlist', 500, $e->getMessage());
         }
     }
@@ -66,6 +88,10 @@ class WishlistController extends Controller
     public function destroy(Wishlist $wishlist)
     {
         try {
+            if ($wishlist->user_id !== auth()->id()) {
+                return ResponseHelper::error('Akses ditolak. Anda tidak dapat menghapus Wishlist user lain.', 403);
+            }
+            
             $wishlist->delete();
             return ResponseHelper::success(null, 'Wishlist berhasil dihapus');
         } catch (\Throwable $e) {
