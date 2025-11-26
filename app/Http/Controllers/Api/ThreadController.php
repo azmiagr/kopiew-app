@@ -129,6 +129,16 @@ class ThreadController extends Controller
         ], $message);
     }
 
+    public function comments(Thread $thread)
+    {
+        $comments = $thread->comments()
+            ->with('user')
+            ->latest()
+            ->paginate(10);
+
+        return ResponseHelper::success($comments, 'Komentar berhasil diambil.');
+    }
+
     public function addComment(Request $request, Thread $thread)
     {
         $request->validate([
