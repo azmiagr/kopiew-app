@@ -29,6 +29,7 @@ Route::get('/place/{place}/photos/{photo}', [PhotoController::class, 'show']);
 // ---------------- THREADS (optional fitur forum) ----------------
 Route::get('/threads', [ThreadController::class, 'index']);
 Route::get('/threads/{thread}', [ThreadController::class, 'show']);
+Route::get('/threads/{thread}/comments', [ThreadController::class, 'comments']);
 
 // ---------------- PROTECTED ROUTES ----------------
 Route::middleware('auth:api')->group(function () {
