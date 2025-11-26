@@ -34,7 +34,7 @@ Route::get('/threads/{thread}', [ThreadController::class, 'show']);
 Route::middleware('auth:api')->group(function () {
     // AUTH
     Route::post('/logout', [AuthController::class, 'logout']);
-
+  
     // PROFILE
     Route::get('/profile', [ProfileController::class, 'index']);
     Route::put('/profile', [ProfileController::class, 'update']);

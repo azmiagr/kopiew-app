@@ -13,7 +13,21 @@ class ThreadController extends Controller
 {
     public function index()
     {
-        $threads = Thread::with(['user', 'comments.user'])->latest()->paginate(8);
+        $userId = $this->getAuthenticatedUserId();
+        
+        $threads = Thread::with(['user', 'comments.user', 'likes'])
+            ->latest()
+            ->paginate(8);
+        
+        $threads->getCollection()->transform(function ($thread) use ($userId) {
+            if ($userId) {
+                $thread->is_liked = $thread->likes->contains('user_id', $userId);
+            } else {
+                $thread->is_liked = false;
+            }
+            return $thread;
+        });
+        
         return ResponseHelper::success($threads, "Thread berhasil diambil");
     }
 
@@ -41,7 +55,15 @@ class ThreadController extends Controller
 
     public function show(Thread $thread)
     {
-        $thread->load(['user', 'comments.user']);
+        $thread->load(['user', 'comments.user', 'likes']);
+        
+        $userId = $this->getAuthenticatedUserId();
+        if ($userId) {
+            $thread->is_liked = $thread->likes->contains('user_id', $userId);
+        } else {
+            $thread->is_liked = false;
+        }
+        
         return ResponseHelper::success($thread, 'Detail thread berhasil diambil.');
     }
 
@@ -90,6 +112,7 @@ class ThreadController extends Controller
             $existing->delete();
             $thread->decrement('likes_count');
             $message = 'Unliked';
+            $isLiked = false;
         } else {
             ThreadLike::create([
                 'thread_id' => $thread->id,
@@ -97,10 +120,12 @@ class ThreadController extends Controller
             ]);
             $thread->increment('likes_count');
             $message = 'Liked';
+            $isLiked = true;
         }
 
         return ResponseHelper::success([
             'likes_count' => $thread->likes_count,
+            'is_liked' => $isLiked,  // ✅ Pakai variable, bukan $thread->is_liked
         ], $message);
     }
 
@@ -119,5 +144,14 @@ class ThreadController extends Controller
         $thread->increment('comments_count');
 
         return ResponseHelper::success($comment, 'Comment ditambahkan.', 201);
+    }
+
+    private function getAuthenticatedUserId(): ?int
+    {
+        try {
+            return auth('api')->id();
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 }
