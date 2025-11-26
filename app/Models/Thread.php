@@ -24,6 +24,26 @@ class Thread extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getIsLikedAttribute()
+    {
+        try {
+            $userId = auth('api')->id();
+        } catch (\Throwable $e) {
+            $userId = null;
+        }
+
+        if (!$userId) {
+            return false;
+        }
+
+        if ($this->relationLoaded('likes')) {
+            return $this->likes->contains('user_id', $userId);
+        }
+
+        return $this->likes()->where('user_id', $userId)->exists();
+    }
+
+    protected $appends = ['is_liked'];
 
     protected $fillable = [
         'user_id',
